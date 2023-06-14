@@ -9,6 +9,7 @@
 
     //Open DB connection with error check
     int DBConnect(){
+        printf("Connessione al database...\n");
         conn = PQconnectdb("host=localhost dbname=%s user=%s password=%s",DBNAME,USER,PASSWORD);
         if (PQStatus(conn) != CONNECTION_OK){
             fprintf(stderr,"Connessione al database fallita: %s\n",PQerrorMessage(conn));

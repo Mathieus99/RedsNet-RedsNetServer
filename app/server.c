@@ -15,7 +15,14 @@ int main(int argc,char *argv[]){
         pthread_create(&thread_pool[i], NULL, thread_function());
     }
 
-    if(DBConnect())
+    //Open DB connection
+    int try = 0;
+    int error = DBConnect();
+    while(error != 0 && try<10){
+        printf(("Errore di connessione al database\n"));
+        error = DBConnect();
+        try++;
+    }
 
     while (1){
         printf("Waiting for connections...\n");

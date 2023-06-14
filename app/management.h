@@ -11,7 +11,7 @@ Library for socket and connections management
     #include <arpa/inet.h>
     #include "DBmgmt.h"
 
-    #define PORT 8081
+    #define PORT 8800
     #define BUFFERSIZE 8192           
     #define SOCKETERROR (-1)
     #define SERVER_BACKLOG 20
@@ -65,27 +65,9 @@ Library for socket and connections management
         char buffer[BUFFERSIZE];
         bzero(&buffer, sizeof(buffer));
         deviceInfo device;
+        
         //receiving device info
-        check(recv(client_socket,buffer,sizeof(char[15]),0),"recv error");
-        device.date = buffer;
-        check(recv(client_socket,buffer,sizeof(char[150]),0),"recv error");
-        device.deviceModel = buffer;
-        check(recv(client_socket,buffer,sizeof(char[150]),0),"recv error");
-        device.deviceManufacturer = buffer;
-        check(recv(client_socket,buffer,sizeof(long),0),"recv error");
-        device.totalRAM = strtol(buffer);
-        check(recv(client_socket,buffer,sizeof(long),0),"recv error");
-        device.usedRAM = strtol(buffer);
-        check(recv(client_socket,buffer,sizeof(long),0),"recv error");
-        device.freeRAM = strtol(buffer);
-        check(recv(client_socket,buffer,sizeof(long),0),"recv error");
-        device.totalStorage = strtol(buffer);
-        check(recv(client_socket,buffer,sizeof(long),0),"recv error");
-        device.usedStorage = strtol(buffer);
-        check(recv(client_socket,buffer,sizeof(long),0),"recv error");
-        device.availableStorage = strtol(buffer);
-        check(recv(client_socket,buffer,sizeof(float),0),"recv error");
-        device.batteryPercentage = strtof(buffer);
+        
 
         //Save info on Database
     }
