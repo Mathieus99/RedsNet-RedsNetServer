@@ -1,9 +1,9 @@
 #ifndef DBmgmt.h
 #define DBmgmt.h
     #include <libpq-fe.h>
-    const char* DBNAME = ;
-    const char* USER = ;
-    const char* PASSWORD = ;
+    const char* DBNAME = redsnetdb;
+    const char* USER = postgres;
+    const char* PASSWORD = redsnetServer;
 
     PGconn *conn;
 
