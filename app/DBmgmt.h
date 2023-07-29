@@ -1,15 +1,14 @@
 #ifndef DBmgmt.h
 #define DBmgmt.h
     #include <libpq-fe.h>
-    const char* DBNAME = redsnetdb;
-    const char* USER = postgres;
-    const char* PASSWORD = redsnetServer;
+    const char* DBNAME = ;
+    const char* USER = ;
+    const char* PASSWORD = ;
 
     PGconn *conn;
 
     //Open DB connection with error check
     int DBConnect(){
-        printf("Connessione al database...\n");
         conn = PQconnectdb("host=localhost dbname=%s user=%s password=%s",DBNAME,USER,PASSWORD);
         if (PQStatus(conn) != CONNECTION_OK){
             fprintf(stderr,"Connessione al database fallita: %s\n",PQerrorMessage(conn));
