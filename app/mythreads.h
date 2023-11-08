@@ -25,6 +25,7 @@ Library for threads and thread pool's management
     int* thread_dequeue();
     void *thread_function(void *arg);
 
+    //enqueue incoming connections for threads
     void thread_enqueue(int *client_socket){
         node_t *newnode = malloc(sizeof(node_t));
 

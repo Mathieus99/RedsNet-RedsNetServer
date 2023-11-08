@@ -17,26 +17,17 @@ int main(int argc,char *argv[]){
     // Attaching socket to PORT
     check(bind(server_socket,(SA*)&server_address,sizeof(server_address)),"Bind Failed!");
     check(listen(server_socket, SERVER_BACKLOG),"Listen Error!");      // Put socket in listen for incoming connections
+    printf("Socket opened\n");
     // ----------------------------------------------------------------------------------  
 
     //Allocate threads for thread pool
     for(int i=0;i<THREAD_POOL_SIZE;i++){
         pthread_create(&thread_pool[i], NULL, thread_function, NULL);
     }
-    /*
-    //Open DB connection
-    int try = 0;
-    int error = DBConnect();
-    while(error != 0 && try<10){
-        error = DBConnect();
-        try++;
-    }
-    if (error != 0){
-        printf("Connessione al database non riuscita\n");
-        exit(EXIT_FAILURE);
-    }
-    else printf ("Connesso a redsnetdb\n");
-    */
+    printf("Thread pool created\n");
+    
+    //TODO: Open DB Connection
+
     // Start listening incoming connections
     printf("Waiting for connections...\n");
     while (1){

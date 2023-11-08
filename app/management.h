@@ -11,10 +11,10 @@ Library for socket and connections management
     #include <arpa/inet.h>
 
 
-    #define PORT 8800
-    #define BUFFERSIZE 8192           
-    #define SOCKETERROR (-1)
-    #define SERVER_BACKLOG 20
+    #define PORT 8800           //Server connection port
+    #define BUFFERSIZE 8192     //Buffer size for packets
+    #define SOCKETERROR (-1)    //Socket error code
+    #define SERVER_BACKLOG 20   //Max incoming connections in pending
 
     typedef struct sockaddr_in SA_IN;
     typedef struct sockadrr SA;
@@ -37,9 +37,9 @@ Library for socket and connections management
         char buffer[BUFFERSIZE];
         bzero(&buffer, sizeof(buffer));
         
-        //receiving device info
-        
+        //receiving JSON        
 
         //Save info on Database
+        
     }
 #endif
