@@ -5,7 +5,7 @@
     #include <bson/bson.h>
 
     #define MONGODB_URI "mongodb://localhost:27017"
-    #define DATABASE "local"
+    #define DB "local"
     #define COLLECTION "Devices"
 
     mongoc_client_t *DBConnect();                                       //Crea la connessione a MongoDB
@@ -35,7 +35,7 @@
     //Crea la connessione con il DB
     mongoc_database_t *get_database(mongoc_client_t *client){
         // Crea una connessione al database
-        mongoc_database_t *database = mongoc_client_get_database(client, DATABASE);
+        mongoc_database_t *database = mongoc_client_get_database(client, DB);
 
         // Controlla gli errori
         if (!database) {
@@ -47,9 +47,9 @@
     }
 
     //Crea una connessione con la collezione
-    mongoc_collection_t *get_collection(){
+    mongoc_collection_t *get_collection(mongoc_database_t *database){
         // Crea una collezione
-        mongoc_collection_t *collection = mongoc_database_get_collection(DATABASE, COLLECTION);
+        mongoc_collection_t *collection = mongoc_database_get_collection(database, COLLECTION);
 
         // Controlla gli errori
         if (!collection) {
@@ -63,12 +63,12 @@
     //Converte il JSON in BSON per MongoDB
     bson_t *load_json(const char *json){
         // Carica un JSON
-        bson_t *document = bson_new_from_json(json, strlen(json), &error);
+        bson_t *document = bson_new_from_json(json, strlen(json), error);
 
         // Controlla gli errori
         if (!document) {
             fprintf(stderr, "Errore: impossibile caricare il JSON\n");
-            mongoc_error_cleanup(&error);
+            error = NULL;
             return NULL;
         }
 
@@ -81,9 +81,9 @@
         mongoc_collection_insert_one(collection, device, NULL, NULL, &error);
         if(error){
             fprintf(stderr, "Errore: %s\n", error->message);
-            mongoc_error_cleanup(&error);
+            error = NULL;
             bson_free(device);
-            return EXIT_FAILURE;
+            exit(EXIT_FAILURE);
         }
         bson_free(device);
     }

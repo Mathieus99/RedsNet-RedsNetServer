@@ -32,7 +32,7 @@ int main(int argc,char *argv[]){
     //Open DB connection -----------------------------------------------------------------
     client = DBConnect();
     database = get_database(client);
-    collection = get_collection();
+    collection = get_collection(database);
     printf("Database connected\n");
     // -----------------------------------------------------------------------------------
 
