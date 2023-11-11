@@ -33,6 +33,7 @@ int main(int argc,char *argv[]){
     client = DBConnect();
     database = get_database(client);
     collection = get_collection();
+    printf("Database connected\n");
     // -----------------------------------------------------------------------------------
 
     // Start listening incoming connections

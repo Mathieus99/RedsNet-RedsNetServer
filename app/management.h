@@ -1,8 +1,8 @@
 /*
 Library for socket and connections management
 */
-#ifndef management.h
-#define management.h
+#ifndef MANAGEMENT_H_INCLUDED
+#define MANAGEMENT_H_INCLUDED
     #include <stdio.h>
     #include <stdlib.h>
     #include <string.h>

@@ -1,5 +1,5 @@
-#ifndef DBmgmt.h
-#define DBmgmt.h
+#ifndef DBMGMT_H_INCLUDED
+#define DBMGMT_H_INCLUDED
 
     #include <mongoc/mongoc.h>
     #include <bson/bson.h>
@@ -8,15 +8,18 @@
     #define DATABASE "local"
     #define COLLECTION "Devices"
 
-    mongoc_client_t *DBConnect();                               //Crea la connessione a MongoDB
-    mongoc_database_t *get_database(mongoc_client_t *client);   //Crea la connessione col database
-    mongoc_collection_t *get_collection();                      //Crea la connessione con la collezione
-    bson_t *load_json(const char *json);                        //Converte il JSON in BSON per MongoDB
-    void caricaJSON(const char *json);                          //Carica il BSON nella collezione
-    void DBDisconnect();                                        //Chiude la connessione
+    mongoc_client_t *DBConnect();                                       //Crea la connessione a MongoDB
+    mongoc_database_t *get_database(mongoc_client_t *client);           //Crea la connessione col database
+    mongoc_collection_t *get_collection();                              //Crea la connessione con la collezione
+    bson_t *load_json(const char *json);                                //Converte il JSON in BSON per MongoDB
+    void caricaJSON(const char *json,mongoc_collection_t *collection);  //Carica il BSON nella collezione
+    //Chiude la connessione
+    void DBDisconnect(mongoc_client_t *client,mongoc_collection_t *collection, mongoc_database_t *db);  
+
+    bson_error_t *error;
 
     //Crea la connessione con MongoDB
-    void DBConnect(){
+    mongoc_client_t * DBConnect(){
         // Crea un client MongoDB
         mongoc_client_t *client = mongoc_client_new(MONGODB_URI);
 
@@ -60,11 +63,12 @@
     //Converte il JSON in BSON per MongoDB
     bson_t *load_json(const char *json){
         // Carica un JSON
-        bson_t *document = bson_new_from_json(json, strlen(json));
+        bson_t *document = bson_new_from_json(json, strlen(json), &error);
 
         // Controlla gli errori
         if (!document) {
             fprintf(stderr, "Errore: impossibile caricare il JSON\n");
+            mongoc_error_cleanup(&error);
             return NULL;
         }
 
@@ -76,7 +80,7 @@
         bson_t *device = load_json(json);
         mongoc_collection_insert_one(collection, device, NULL, NULL, &error);
         if(error){
-            fprintf(stderr, "Errore: %s\n", error.message);
+            fprintf(stderr, "Errore: %s\n", error->message);
             mongoc_error_cleanup(&error);
             bson_free(device);
             return EXIT_FAILURE;

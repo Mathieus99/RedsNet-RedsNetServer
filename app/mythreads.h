@@ -1,8 +1,8 @@
 /*
 Library for threads and thread pool's management
 */
-#ifndef mythreads.h
-#define mythreads.h
+#ifndef MYTHREADS_H_INCLUDED
+#define MYTHREADS_H_INCLUDED
     #include "DBmgmt.h"
     #include "management.h"
     #include <pthread.h>
