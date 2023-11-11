@@ -3,6 +3,7 @@ Library for threads and thread pool's management
 */
 #ifndef mythreads.h
 #define mythreads.h
+    #include "DBmgmt.h"
     #include "management.h"
     #include <pthread.h>
 

@@ -5,8 +5,8 @@
     #include <bson/bson.h>
 
     #define MONGODB_URI "mongodb://localhost:27017"
-    #define DATABASE "my_database"
-    #define COLLECTION "my_collection"
+    #define DATABASE "local"
+    #define COLLECTION "Devices"
 
     mongoc_client_t *DBConnect();                               //Crea la connessione a MongoDB
     mongoc_database_t *get_database(mongoc_client_t *client);   //Crea la connessione col database
@@ -72,23 +72,20 @@
     }
 
     //Carica il JSON nella collezione    
-    void caricaJSON(const char *json){
-        mongoc_client_t *client = DBConnect();
-        mongoc_database_t *database = get_database(client);
-        mongoc_collection_t *collection = get_collection();
+    void caricaJSON(const char *json, mongoc_collection_t *collection){
         bson_t *device = load_json(json);
         mongoc_collection_insert_one(collection, device, NULL, NULL, &error);
         if(error){
             fprintf(stderr, "Errore: %s\n", error.message);
             mongoc_error_cleanup(&error);
+            bson_free(device);
             return EXIT_FAILURE;
         }
-        DBDisconnect(client,database,collection,document);
+        bson_free(device);
     }
 
     //Chiude la connessione
-    void DBDisconnect(mongoc_client_t *client,mongoc_collection_t *collection, mongoc_database_t *db,bson_t *doc){
-        bson_free(doc);
+    void DBDisconnect(mongoc_client_t *client,mongoc_collection_t *collection, mongoc_database_t *db){
         mongoc_collection_destroy(collection);
         mongoc_database_destroy(db);
         mongoc_client_destroy(client);
