@@ -22,7 +22,7 @@ Library for socket and connections management
     int check(int, const char *);       //check for problems from functions
     void *handle_connection(void *);    //do operations with connections
     char *downloadString();             //Download function for string
-    FILE *downloadFile();               //Download function for file
+    int creaFile(char *string);        //Create file from string
 
     int check(int exp, const char *msg){
         if(exp == SOCKETERROR){
@@ -36,8 +36,12 @@ Library for socket and connections management
     void *handle_connection(void *p_client_socket){
         int client_socket = *((int *)p_client_socket);
         free(p_client_socket);                              //empty the socket for other connections
-        const char *json = downloadString(client_socket);   //receiving JSON        
-        caricaJSON(json);                                   //Carica il JSON nel DB        
+        char *device = downloadString(client_socket);       //receiving JSON
+        if(creaFile(device) == -1)
+            printf("Errore nel salvare il file\n");
+        else
+            printf("Device salvato\n");
+        //caricaJSON(json);                                   //Carica il JSON nel DB        
     }
 
     char *downloadString(int socket){
@@ -69,6 +73,20 @@ Library for socket and connections management
         buffer[total_bytes_received - 1] = '\0';
 
         return buffer;
+    }
+
+    int creaFile(char *string){
+        static int i=0;
+        char *devname = malloc(10*sizeof(char));
+        strcpy(devname, "device ");
+        sprintf(devname + 11, "%d", i);
+        i++;
+        FILE *device = fopen(devname,"w");
+        if (device == NULL)
+            return -1;
+        fprintf(device,"%s", string);
+        fclose(device);
+        return 0;
     }
 
 #endif

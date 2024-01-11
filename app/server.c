@@ -29,13 +29,14 @@ int main(int argc,char *argv[]){
     }
     printf("Thread pool created\n");
     
-    //Open DB connection -----------------------------------------------------------------
+    /* Open DB connection -----------------------------------------------------------------
     client = DBConnect();
     database = get_database(client);
     collection = get_collection(database);
     printf("Database connected\n");
     // -----------------------------------------------------------------------------------
-
+    */
+    
     // Start listening incoming connections
     printf("Waiting for connections...\n");
     while (1){
