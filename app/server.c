@@ -1,16 +1,14 @@
+#include "management.h"
 #include "mythreads.h"
 
 int main(int argc,char *argv[]){
 
     int server_socket, client_socket, addr_size;
     SA_IN server_address, client_address;
-    mongoc_client_t *client = NULL;
-    mongoc_database_t *database = NULL;
-    mongoc_collection_t *collection = NULL;
-    
+
     //Initialize server socket ----------------------------------------------------------
     printf("Initializing server\n");
-    check((server_socket = socket(AF_INET,SOCK_STREAM,0)), "socket failed");    // Creating socket
+    check((server_socket = socket(AF_INET,SOCK_STREAM,0)), "Creating Socket failed");    // Creating socket
 
     //Initialize address struct
     server_address.sin_family = AF_INET;           //setting address version IPv4
@@ -18,7 +16,7 @@ int main(int argc,char *argv[]){
     server_address.sin_port = htons(PORT);         //set address port 8081
 
     // Attaching socket to PORT
-    check(bind(server_socket,(SA*)&server_address,sizeof(server_address)),"Bind Failed!");
+    check(bind(server_socket,(SA_IN*)&server_address,sizeof(server_address)),"Bind Failed!");
     check(listen(server_socket, SERVER_BACKLOG),"Listen Error!");      // Put socket in listen for incoming connections
     printf("Socket opened\n");
     // ----------------------------------------------------------------------------------  
@@ -52,6 +50,5 @@ int main(int argc,char *argv[]){
         pthread_cond_signal(&condition_var);
         pthread_mutex_unlock(&mutex);
     }
-    DBDisconnect(client,database,collection);
     return 0;
 }
