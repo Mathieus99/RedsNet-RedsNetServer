@@ -1,7 +1,17 @@
 # :desktop_computer: RedsNetServer
+Server in linguaggio **C** per il sistema **RedsNet**, con supporto al multithreading per gestione simultanea delle connessioni in arrivo. 
 ## :mechanic: Authors
 - Matteo - [Mathieus99](https://github.com/Mathieus99)
 - Biagio - [Nankurunaisa99](https://github.com/Nankurunaisa99)
 - Giovanni
-## :spiral_notepad: Description
-C language application as server for _**RedsNet**_ with multithreading support for simultaneous incoming connection management.
+## :page_with_curl: Istruzioni
+Dopo aver eseguito il download dei sorgenti e averli messi in una cartella:
+- Aprire un terminale, spostarsi nella cartella con i sorgenti e digitare il comando
+```
+gcc server.c -o server
+```
+- Sempre rimanendo nella stessa cartella digitare il comando
+```
+./server
+```
+A questo punto, il server sara' operativo e in ascolto.
