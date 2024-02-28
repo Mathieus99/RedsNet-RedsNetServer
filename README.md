@@ -14,4 +14,4 @@ gcc server.c -o server
 ```
 ./server
 ```
-A questo punto, il server sara' operativo e in ascolto.
+A questo punto, il server sara' operativo e in ascolto sull'IP della macchina.
